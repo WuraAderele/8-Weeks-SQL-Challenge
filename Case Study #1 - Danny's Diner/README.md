@@ -96,7 +96,7 @@ To understand the dataset we will be working with, I studied the Entity Relation
 | B           | 2021-01-09 |
 
 ## 🧙‍♂️ Case Study Questions & 🚀 Solutions
-  1.  What is the total amount each customer spent at the restaurant?
+###  1.  What is the total amount each customer spent at the restaurant?
             SELECT customer_id
               ,sum(price) AS amount_spent
             FROM sales
