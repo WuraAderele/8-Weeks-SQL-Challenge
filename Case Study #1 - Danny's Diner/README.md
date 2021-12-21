@@ -17,7 +17,7 @@ He plans on using these insights to help him decide whether he should expand the
 
  Danny has provided you with a sample of his overall customer data due to privacy issues - but he hopes that these examples are enough for you to write fully functioning SQL queries to help him answer his questions!
   
-📂 Dataset
+### 📂 Dataset
   
 🧙‍♂️ Case Study Questions
   
