@@ -24,7 +24,7 @@ Danny has shared with you 3 key datasets for this case study:
       iii. members
 You can inspect the entity relationship diagram below:
   
-<img width="357" alt="DD DB ERD" src="https://user-images.githubusercontent.com/94797745/146904293-4ea7056d-b7fc-4b2e-b0be-7740aa7c3398.PNG">
+<img width="500" alt="DD DB ERD" src="https://user-images.githubusercontent.com/94797745/146904293-4ea7056d-b7fc-4b2e-b0be-7740aa7c3398.PNG">
 
   
 🧙‍♂️ Case Study Questions
