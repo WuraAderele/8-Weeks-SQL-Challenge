@@ -103,12 +103,145 @@ To understand the dataset we will be working with, I studied the Entity Relation
             JOIN menu ON sales.product_id = menu.product_id
             GROUP BY customer_id;
 
-  2.  How many days has each customer visited the restaurant?
-  3.  What was the first item from the menu purchased by each customer?
-  4.  What is the most purchased item on the menu and how many times was it purchased by all customers?
-  5.  Which item was the most popular for each customer?
-  6.  Which item was purchased first by the customer after they became a member?
-  7.  Which item was purchased just before the customer became a member?
-  8.  What is the total items and amount spent for each member before they became a member?
-  9.  If each $1 spent equates to 10 points and sushi has a 2x points multiplier - how many points would each customer have?
-  10. In the first week after a customer joins the program (including their join date) they earn 2x points on all items, not just sushi - how       many points do customer A and B have at the end of January?
+### 2.  How many days has each customer visited the restaurant?
+          SELECT customer_id
+            ,COUNT(DISTINCT order_date) AS days_visited
+          FROM sales
+          GROUP BY customer_id;
+
+### 3.  What was the first item from the menu purchased by each customer?
+          WITH first_item
+          AS (
+            SELECT sales.customer_id
+              ,menu.product_name
+              ,ROW_NUMBER() OVER (
+                PARTITION BY sales.customer_id ORDER BY sales.order_date
+                ) AS rank
+            FROM sales
+            JOIN menu ON sales.product_id = menu.product_id
+            )
+          SELECT *
+          FROM first_item
+          WHERE rank = 1;
+
+###  4.  What is the most purchased item on the menu and how many times was it purchased by all customers?
+         SELECT sales.product_id
+          ,menu.product_name
+          ,count(sales.product_id) AS num_of_purchases
+        FROM sales
+        JOIN menu ON sales.product_id = menu.product_id
+        GROUP BY sales.product_id
+          ,menu.product_name
+        ORDER BY num_of_purchases DESC LIMIT 1;
+
+###  5.  Which item was the most popular for each customer?
+        WITH fave_item
+        AS (
+          SELECT sales.customer_id
+            ,menu.product_name
+            ,COUNT(sales.product_id) AS popular_order
+            ,DENSE_RANK() OVER (
+              PARTITION BY sales.customer_id ORDER BY COUNT(sales.product_id) DESC
+              ) AS rank
+          FROM sales
+          JOIN menu ON sales.product_id = menu.product_id
+          GROUP BY sales.customer_id
+            ,menu.product_name
+          )
+        SELECT *
+        FROM fave_item
+        WHERE rank = 1;
+
+###  6.  Which item was purchased first by the customer after they became a member?
+        WITH first_member_item
+        AS (
+          SELECT sales.customer_id
+            ,sales.product_id
+            ,menu.product_name
+            ,members.join_date
+            ,DENSE_RANK() OVER (
+              PARTITION BY sales.customer_id ORDER BY 
+              sales.order_date ,sales.customer_id
+              ) AS rank
+          FROM sales
+          JOIN members ON sales.customer_id = members.customer_id
+          JOIN menu ON sales.product_id = menu.product_id
+          WHERE sales.order_date >= members.join_date
+          )
+        SELECT customer_id
+          ,product_name
+        FROM first_member_item
+        WHERE rank = 1;
+
+###  7.  Which item was purchased just before the customer became a member?
+        WITH prior_member_item
+        AS (
+          SELECT sales.customer_id
+            ,sales.product_id
+            ,menu.product_name
+            ,sales.order_date
+            ,members.join_date
+            ,DENSE_RANK() OVER (
+              PARTITION BY sales.customer_id ORDER BY
+              sales.order_date DESC
+              ) AS rank
+          FROM sales
+          JOIN members ON sales.customer_id = members.customer_id
+          JOIN menu ON sales.product_id = menu.product_id
+          WHERE sales.order_date < members.join_date
+          )
+        SELECT customer_id, product_name
+        FROM prior_member_item
+        WHERE rank = 1;
+
+###  8. What is the total items and amount spent for each member before they became a member?
+        SELECT sales.customer_id
+          ,COUNT(sales.product_id) AS total_purchases
+          ,SUM(menu.price) AS total_cost
+        FROM sales
+        JOIN menu ON sales.product_id = menu.product_id
+        JOIN members ON sales.customer_id = members.customer_id
+        WHERE sales.order_date < members.join_date
+        GROUP BY sales.customer_id
+        ORDER BY sales.customer_id;
+                                         
+###  9. If each $1 spent equates to 10 points and sushi has a 2x points multiplier - how many points would each customer have?
+        WITH price_points
+        AS (
+          SELECT *
+            ,CASE 
+              WHEN menu.product_name = "sushi"
+                THEN menu.price * 10 * 2
+              ELSE price * 10
+              END AS points_gained
+          FROM menu
+          )
+        SELECT sales.customer_id
+          ,SUM(points_gained) AS customer_points
+        FROM price_points
+        JOIN sales ON price_points.product_id = sales.product_id
+        GROUP BY sales.customer_id
+
+###  10. In the first week after a customer joins the program (including their join date) they earn 2x points on all items, not just sushi -          how many points do customer A and B have at the end of January?
+          WITH jan_and_first_week
+          AS (
+            SELECT *
+              ,DATEADD(DAY, 6, join_date) AS first_week
+              ,EOMONTH('2021-01-31') AS jan_end
+            FROM members
+            )
+          SELECT jfw.customer_id
+            ,SUM(CASE 
+                WHEN menu.product_name = 'sushi'
+                  THEN 2 * 10 * menu.price
+                WHEN sales.order_date BETWEEN jfw.join_date
+                    AND jfw.first_week
+                  THEN 2 * 10 * menu.price
+                ELSE 10 * menu.price
+                END) AS total_jan_points
+          FROM jan_and_first_week AS jfw
+          JOIN sales ON jfw.customer_id = sales.customer_id
+          JOIN menu ON sales.product_id = menu.product_id
+          WHERE sales.order_date < jfw.jan_end
+          GROUP BY jfw.customer_id;
+
