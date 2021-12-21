@@ -102,12 +102,26 @@ To understand the dataset we will be working with, I studied the Entity Relation
             FROM sales
             JOIN menu ON sales.product_id = menu.product_id
             GROUP BY customer_id;
+   
+| customer_id | amount_spent |
+| ----------- | ------------ |
+| A           | 76           |
+| B           | 74           |
+| C           | 36           |
+
 
 ### 2.  How many days has each customer visited the restaurant?
           SELECT customer_id
             ,COUNT(DISTINCT order_date) AS days_visited
           FROM sales
           GROUP BY customer_id;
+   
+| customer_id | days_visited |
+| ----------- | ------------ |
+| A           | 4            |
+| B           | 6            |
+| C           | 2            |
+
 
 ### 3.  What was the first item from the menu purchased by each customer?
           WITH first_item
@@ -124,8 +138,15 @@ To understand the dataset we will be working with, I studied the Entity Relation
           FROM first_item
           WHERE rank = 1;
 
+| customer_id | product_name | rank |
+| ----------- | ------------ | ---- |
+| A           | sushi        | 1    |
+| B           | curry        | 1    |
+| C           | ramen        | 1    |
+
+
 ###  4.  What is the most purchased item on the menu and how many times was it purchased by all customers?
-         SELECT sales.product_id
+        SELECT sales.product_id
           ,menu.product_name
           ,count(sales.product_id) AS num_of_purchases
         FROM sales
@@ -133,6 +154,10 @@ To understand the dataset we will be working with, I studied the Entity Relation
         GROUP BY sales.product_id
           ,menu.product_name
         ORDER BY num_of_purchases DESC LIMIT 1;
+
+| product_id | product_name | num_of_purchases |
+| ---------- | ------------ | ---------------- |
+| 3          | ramen        | 8                |
 
 ###  5.  Which item was the most popular for each customer?
         WITH fave_item
@@ -152,7 +177,15 @@ To understand the dataset we will be working with, I studied the Entity Relation
         FROM fave_item
         WHERE rank = 1;
 
-###  6.  Which item was purchased first by the customer after they became a member?
+| customer_id | product_name | popular_order | rank |
+| ----------- | ------------ | ------------- | ---- |
+| A           | ramen        | 3             | 1    |
+| B           | sushi        | 2             | 1    |
+| B           | ramen        | 2             | 1    |
+| B           | curry        | 2             | 1    |
+| C           | ramen        | 3             | 1    |
+
+###  6. Which item was purchased first by the customer after they became a member?
         WITH first_member_item
         AS (
           SELECT sales.customer_id
@@ -172,8 +205,14 @@ To understand the dataset we will be working with, I studied the Entity Relation
           ,product_name
         FROM first_member_item
         WHERE rank = 1;
+   
+| customer_id | product_name |
+| ----------- | ------------ |
+| A           | curry        |
+| B           | sushi        |
 
-###  7.  Which item was purchased just before the customer became a member?
+   
+###  7. Which item was purchased just before the customer became a member?
         WITH prior_member_item
         AS (
           SELECT sales.customer_id
@@ -194,6 +233,12 @@ To understand the dataset we will be working with, I studied the Entity Relation
         FROM prior_member_item
         WHERE rank = 1;
 
+| customer_id | product_name |
+| ----------- | ------------ |
+| A           | sushi        |
+| A           | curry        |
+| B           | sushi        |
+
 ###  8. What is the total items and amount spent for each member before they became a member?
         SELECT sales.customer_id
           ,COUNT(sales.product_id) AS total_purchases
@@ -204,7 +249,13 @@ To understand the dataset we will be working with, I studied the Entity Relation
         WHERE sales.order_date < members.join_date
         GROUP BY sales.customer_id
         ORDER BY sales.customer_id;
-                                         
+
+| customer_id | total_purchases | total_cost |
+| ----------- | --------------- | ---------- |
+| A           | 2               | 25         |
+| B           | 3               | 40         |
+
+                                      
 ###  9. If each $1 spent equates to 10 points and sushi has a 2x points multiplier - how many points would each customer have?
         WITH price_points
         AS (
@@ -221,6 +272,12 @@ To understand the dataset we will be working with, I studied the Entity Relation
         FROM price_points
         JOIN sales ON price_points.product_id = sales.product_id
         GROUP BY sales.customer_id
+
+| customer_id | customer_points |
+| ----------- | --------------- |
+| A           | 860             |
+| B           | 940             |
+| C           | 360             |
 
 ###  10. In the first week after a customer joins the program (including their join date) they earn 2x points on all items, not just sushi -          how many points do customer A and B have at the end of January?
           WITH jan_and_first_week
@@ -245,3 +302,7 @@ To understand the dataset we will be working with, I studied the Entity Relation
           WHERE sales.order_date < jfw.jan_end
           GROUP BY jfw.customer_id;
 
+| customer_id | total_jan_points  |
+| ----------- | ---------------   |
+| A           | 1370              |
+| B           | 820               |
