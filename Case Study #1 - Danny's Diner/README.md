@@ -18,6 +18,14 @@ He plans on using these insights to help him decide whether he should expand the
  Danny has provided you with a sample of his overall customer data due to privacy issues - but he hopes that these examples are enough for you to write fully functioning SQL queries to help him answer his questions!
   
 ### 📂 Dataset
+Danny has shared with you 3 key datasets for this case study:
+      i. sales
+      ii. menu
+      iii. members
+You can inspect the entity relationship diagram below:
+  
+<img width="357" alt="DD DB ERD" src="https://user-images.githubusercontent.com/94797745/146904293-4ea7056d-b7fc-4b2e-b0be-7740aa7c3398.PNG">
+
   
 🧙‍♂️ Case Study Questions
   
