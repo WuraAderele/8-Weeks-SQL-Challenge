@@ -17,7 +17,7 @@ He plans on using these insights to help him decide whether he should expand the
 
  Danny has provided you with a sample of his overall customer data due to privacy issues - but he hopes that these examples are enough for you to write fully functioning SQL queries to help him answer his questions!
   
-### 📂 Dataset
+##### 📂 Dataset
 Danny has shared with you 3 key datasets for this case study:
       i. sales
       ii. menu
@@ -25,6 +25,13 @@ Danny has shared with you 3 key datasets for this case study:
 You can inspect the entity relationship diagram below:
  <p align = "center">
   <img width="500" alt="DD DB ERD" src="https://user-images.githubusercontent.com/94797745/146904293-4ea7056d-b7fc-4b2e-b0be-7740aa7c3398.PNG">
+
+To understand the dataset we will be working with, I studied the Entity Relationship Diagrams of the Database and ran a few SQLite commands to get an overview of the tables in the database
+DATABASE: dannys_diner
+TABLES: 
+	Sales: Captures customer purchases using unique customer ID with corresponding order date and product ID
+	Menu:  Captures relevant data (product ID, name, and price) of food menu items 
+	Members: Captures date when customer joined the Danny’s Diner loyalty program
 
   
 🧙‍♂️ Case Study Questions
