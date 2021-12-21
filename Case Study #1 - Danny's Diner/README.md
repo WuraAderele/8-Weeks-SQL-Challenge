@@ -19,9 +19,10 @@ He plans on using these insights to help him decide whether he should expand the
   
 ## 📂 Dataset
 Danny has shared with you 3 key datasets for this case study:
-        i.   sales
-        ii.  menu
-        iii. members
+      i.   sales
+      ii.  menu
+      iii. members
+  
 You can inspect the entity relationship diagram below:
  <p align = "center">
   <img width="500" alt="DD DB ERD" src="https://user-images.githubusercontent.com/94797745/146904293-4ea7056d-b7fc-4b2e-b0be-7740aa7c3398.PNG">
@@ -94,6 +95,20 @@ To understand the dataset we will be working with, I studied the Entity Relation
 | A           | 2021-01-07 |
 | B           | 2021-01-09 |
 
-🧙‍♂️ Case Study Questions
-  
-🚀 Solutions
+## 🧙‍♂️ Case Study Questions & 🚀 Solutions
+  1.  What is the total amount each customer spent at the restaurant?
+            SELECT customer_id
+              ,sum(price) AS amount_spent
+            FROM sales
+            JOIN menu ON sales.product_id = menu.product_id
+            GROUP BY customer_id;
+
+  2.  How many days has each customer visited the restaurant?
+  3.  What was the first item from the menu purchased by each customer?
+  4.  What is the most purchased item on the menu and how many times was it purchased by all customers?
+  5.  Which item was the most popular for each customer?
+  6.  Which item was purchased first by the customer after they became a member?
+  7.  Which item was purchased just before the customer became a member?
+  8.  What is the total items and amount spent for each member before they became a member?
+  9.  If each $1 spent equates to 10 points and sushi has a 2x points multiplier - how many points would each customer have?
+  10. In the first week after a customer joins the program (including their join date) they earn 2x points on all items, not just sushi - how       many points do customer A and B have at the end of January?
