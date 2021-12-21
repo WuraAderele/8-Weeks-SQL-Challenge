@@ -3,6 +3,11 @@
   <img src="https://user-images.githubusercontent.com/94797745/146899828-ea5f21ac-7c29-4227-bce0-b54b4b371e84.png" width = "400" height = "400"/>
 
 #  📕 Table Of Contents
+## 📝 Background
+## 🛠️ Problem Statement
+## 📂 Dataset
+## 🧙‍♂️ Case Study Questions & 🚀 Solutions
+
 
 ## 📝 Background
 Danny seriously loves Japanese food so in the beginning of 2021, he decides to embark upon a risky venture and opens up a cute little restaurant that sells his 3 favorite foods: sushi, curry, and ramen.
