@@ -32,6 +32,22 @@ To understand the dataset we will be working with, I studied the Entity Relation
        i.   Sales: Captures customer purchases using unique customer ID with corresponding order date and product ID
        ii.  Menu:  Captures relevant data (product ID, name, and price) of food menu items 
        iii. Members: Captures date when customer joined the Danny’s Diner loyalty program
+   
+   ##### Sales Table
+        PRAGMA table_info(sales);
+   ##### Result:
+   
+| cid | name        | type       | notnull | dflt_value | pk  |
+| --- | ----------- | ---------- | ------- | ---------- | --- |
+| 0   | customer_id | VARCHAR(1) | 0       |            | 0   |
+| 1   | order_date  | DATE       | 0       |            | 0   |
+| 2   | product_id  | INTEGER    | 0       |            | 0   |
+
+---
+
+[View on DB Fiddle](https://www.db-fiddle.com/f/2rM8RAnq7h5LLDTzZiRWcd/138)
+
+By using the above statement, we describe the sales table.
 
   
 🧙‍♂️ Case Study Questions
