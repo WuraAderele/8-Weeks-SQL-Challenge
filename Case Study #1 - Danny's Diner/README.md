@@ -43,11 +43,37 @@ To understand the dataset we will be working with, I studied the Entity Relation
 | 1   | order_date  | DATE       | 0       |            | 0   |
 | 2   | product_id  | INTEGER    | 0       |            | 0   |
 
----
+   ##### Sample view of sales table:
+        SELECT *
+        FROM sales LIMIT 3;
+   ##### Result:
+| customer_id | order_date | product_id |
+| ----------- | ---------- | ---------- |
+| A           | 2021-01-01 | 1          |
+| A           | 2021-01-01 | 2          |
+| A           | 2021-01-07 | 2          |
 
-[View on DB Fiddle](https://www.db-fiddle.com/f/2rM8RAnq7h5LLDTzZiRWcd/138)
 
-By using the above statement, we describe the sales table.
+   ##### Menu Table
+        PRAGMA table_info(menu);
+   ##### Result:
+   
+| cid | name         | type       | notnull | dflt_value | pk  |
+| --- | ------------ | ---------- | ------- | ---------- | --- |
+| 0   | product_id   | INTEGER    | 0       |            | 0   |
+| 1   | product_name | VARCHAR(5) | 0       |            | 0   |
+| 2   | price        | INTEGER    | 0       |            | 0   |
+
+   ##### Sample view of menu table:
+        SELECT *
+        FROM menu LIMIT 3;
+   ##### Result:
+  
+| product_id | product_name | price |
+| ---------- | ------------ | ----- |
+| 1          | sushi        | 10    |
+| 2          | curry        | 15    |
+| 3          | ramen        | 12    |
 
   
 🧙‍♂️ Case Study Questions
