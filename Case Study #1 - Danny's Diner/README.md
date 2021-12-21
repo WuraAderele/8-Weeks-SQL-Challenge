@@ -75,7 +75,25 @@ To understand the dataset we will be working with, I studied the Entity Relation
 | 2          | curry        | 15    |
 | 3          | ramen        | 12    |
 
+   ##### Members Table
+        PRAGMA table_info(members);
+   ##### Result:
   
+| cid | name        | type       | notnull | dflt_value | pk  |
+| --- | ----------- | ---------- | ------- | ---------- | --- |
+| 0   | customer_id | VARCHAR(1) | 0       |            | 0   |
+| 1   | join_date   | DATE       | 0       |            | 0   |
+
+   ##### Sample view of members table:
+        SELECT *
+        FROM members LIMIT 3;
+   ##### Result:
+
+| customer_id | join_date  |
+| ----------- | ---------- |
+| A           | 2021-01-07 |
+| B           | 2021-01-09 |
+
 🧙‍♂️ Case Study Questions
   
 🚀 Solutions
