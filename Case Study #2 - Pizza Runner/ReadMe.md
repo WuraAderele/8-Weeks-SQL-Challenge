@@ -23,6 +23,88 @@ He has prepared for us an entity relationship diagram of his database design but
 You can inspect the entity relationship diagram below:
  <p align = "center">
    <img width="500" alt="PR ERD Capture" src="https://user-images.githubusercontent.com/94797745/147705079-71079fdb-e475-48df-8e32-31763dc6b91d.PNG">
+  
+### Table Info  
+<details>
+ <summary> Runner_Orders Table </summary>
+ <p>
+
+| cid | name         | type        | notnull | dflt_value | pk  |
+| --- | ------------ | ----------- | ------- | ---------- | --- |
+| 0   | order_id     | INTEGER     | 0       |            | 0   |
+| 1   | runner_id    | INTEGER     | 0       |            | 0   |
+| 2   | pickup_time  | VARCHAR(19) | 0       |            | 0   |
+| 3   | distance     | VARCHAR(7)  | 0       |            | 0   |
+| 4   | duration     | VARCHAR(10) | 0       |            | 0   |
+| 5   | cancellation | VARCHAR(23) | 0       |            | 0   |
+ </p>
+</details>
+
+<details>
+ <summary> Runners Table </summary>
+ <p>
+
+| cid | name              | type    | notnull | dflt_value | pk  |
+| --- | ----------------- | ------- | ------- | ---------- | --- |
+| 0   | runner_id         | INTEGER | 0       |            | 0   |
+| 1   | registration_date | DATE    | 0       |            | 0   |
+
+ </p>
+</details>
+
+<details>
+ <summary> Customer_Orders Table </summary>
+ <p>
+  
+| cid | name        | type       | notnull | dflt_value | pk  |
+| --- | ----------- | ---------- | ------- | ---------- | --- |
+| 0   | order_id    | INTEGER    | 0       |            | 0   |
+| 1   | customer_id | INTEGER    | 0       |            | 0   |
+| 2   | pizza_id    | INTEGER    | 0       |            | 0   |
+| 3   | exclusions  | VARCHAR(4) | 0       |            | 0   |
+| 4   | extras      | VARCHAR(4) | 0       |            | 0   |
+| 5   | order_time  | TIMESTAMP  | 0       |            | 0   |
+ </p>
+</details>
+  
+<details>
+ <summary> Pizza_Names Table </summary>
+ <p>
+ 
+| cid | name       | type    | notnull | dflt_value | pk  |
+| --- | ---------- | ------- | ------- | ---------- | --- |
+| 0   | pizza_id   | INTEGER | 0       |            | 0   |
+| 1   | pizza_name | TEXT    | 0       |            | 0   |
+
+ </p>
+</details>
+  
+<details>
+ <summary> Pizza_Recipes Table </summary>
+ <p>
+
+| cid | name     | type    | notnull | dflt_value | pk  |
+| --- | -------- | ------- | ------- | ---------- | --- |
+| 0   | pizza_id | INTEGER | 0       |            | 0   |
+| 1   | toppings | TEXT    | 0       |            | 0   |
+
+ </p>
+</details>
+  
+<details>
+ <summary> Pizza_Toppings Table </summary>
+ <p>
+
+| cid | name         | type    | notnull | dflt_value | pk  |
+| --- | ------------ | ------- | ------- | ---------- | --- |
+| 0   | topping_id   | INTEGER | 0       |            | 0   |
+| 1   | topping_name | TEXT    | 0       |            | 0   |
+
+ </p>
+</details>
+
+  
+### Table Columns in the dataset  
 <details>
  <summary> Runner_Orders Table </summary>
  <p>
@@ -120,7 +202,7 @@ You can inspect the entity relationship diagram below:
 | 12         | Tomato Sauce |
  </p>
 </details>
-  
+
 ## ♻️ Data Wrangling
 ### Data Issues
 After studying the existing table, we notice some data issues in the existing schema. The issues are:
