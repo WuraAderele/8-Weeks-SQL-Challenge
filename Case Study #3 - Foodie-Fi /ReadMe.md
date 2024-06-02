@@ -192,7 +192,9 @@ Based on the data above, see below the journey of these 8 sample customers:
 
 **B. DATA ANLYSIS JOURNEY**
 **1. How many customers has Foodie-Fi ever had?**
-     SELECT
-     COUNT(DISTINCT(customer_id)) AS NumberOfCustomers
-     FROM subscriptions;
+
+      SELECT
+      	COUNT(DISTINCT(customer_id)) AS NumberOfCustomers
+      FROM subscriptions;
+
 
