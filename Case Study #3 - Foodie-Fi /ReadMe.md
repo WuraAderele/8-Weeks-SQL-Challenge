@@ -17,8 +17,10 @@ Danny finds a few smart friends to launch his new startup Foodie-Fi in 2020 and 
 Danny created Foodie-Fi with a data driven mindset and wanted to ensure all future investment decisions and new features were decided using data. This case study focuses on using subscription style digital data to answer important business questions.
  <p align = "center">
    <img width="500" alt="PR ERD Capture" src="https://user-images.githubusercontent.com/94797745/147705079-71079fdb-e475-48df-8e32-31763dc6b91d.PNG">
-  
-### Table Info  
+
+## 📂 Dataset
+Danny has shared the data design for Foodie-Fi and also short descriptions on each of the database tables as shown below:
+
 <details>
  <summary> Plans Table Structure </summary>
  <p>
@@ -115,9 +117,6 @@ When customers churn - they will keep their access until the end of their curren
 | 5           | 0       | 2020-08-03 |
  </p>
 </details>
-
-## 📂 Dataset
-Danny has shared the data design for Foodie-Fi and also short descriptions on each of the database tables as shown below:
 
 ## ♻️ Data Wrangling
 ## 🧙‍♂️ Case Study Questions & 🚀 Solutions
