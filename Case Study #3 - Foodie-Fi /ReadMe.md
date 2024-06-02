@@ -190,11 +190,27 @@ Based on the data above, see below the journey of these 8 sample customers:
 | 19               | This customer signed up for Foodie-Fi on 22 June,  downgraded to pro monthly at the end of the trial period, and eventually  upgraded their subscription to pro annual |
 
 
-**B. DATA ANLYSIS JOURNEY**
+**B. DATA ANALYSIS JOURNEY**
+
 **1. How many customers has Foodie-Fi ever had?**
 
       SELECT
       	COUNT(DISTINCT(customer_id)) AS NumberOfCustomers
       FROM subscriptions;
+
+**2. What is the monthly distribution of trial plan start_date values for our dataset? - use the start of the month as the group by value**
+
+     SELECT
+     	MONTH(s.start_date) AS MonthNum,
+     	MONTHNAME(s.start_date) AS Month,
+      COUNT(s.customer_id) AS NumberOfSubs
+     FROM subscriptions s
+     WHERE s.plan_id = 0
+     GROUP BY MonthNum, Month
+     ORDER BY MonthNum; 
+
+**3. What plan start_date values occur after the year 2020 for our dataset? Show the breakdown by count of events for each plan_name?**
+
+
 
 
