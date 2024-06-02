@@ -188,3 +188,11 @@ Based on the data above, see below the journey of these 8 sample customers:
 | 16               | This customer signed up for Foodie-Fi on 31 May,  downgraded to basic monthly at the end of the trial period, and eventually  upgraded their subscription to pro annual |
 | 18               | This customer signed up for Foodie-Fi on 06 July and downgraded to basic monthly at the end of the trial period |
 | 19               | This customer signed up for Foodie-Fi on 22 June,  downgraded to pro monthly at the end of the trial period, and eventually  upgraded their subscription to pro annual |
+
+
+**B. DATA ANLYSIS JOURNEY**
+**1. How many customers has Foodie-Fi ever had?**
+     SELECT
+     COUNT(DISTINCT(customer_id)) AS NumberOfCustomers
+     FROM subscriptions;
+
