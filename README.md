@@ -3,6 +3,6 @@
 #### This repository contains all of my SQL queries for the #8WeekSQLChallenge 
 # 📕 Table Of Contents
   ### 🍜 [Case Study #1 - Danny's Diner](https://github.com/WuraAderele/8-Weeks-SQL-Challenge/tree/main/Case%20Study%20%231%20-%20Danny's%20Diner)
-  ### 🍕 Case Study #2 - Pizza Runner 
-  ### 🥑 Case Study #3 - Foodie-Fi
+  ### 🍕 [Case Study #2 - Pizza Runner](https://github.com/WuraAderele/8-Weeks-SQL-Challenge/tree/main/Case%20Study%20%232%20-%20Pizza%20Runner) 
+  ### 🥑 [Case Study #3 - Foodie-Fi](https://github.com/WuraAderele/8-Weeks-SQL-Challenge/tree/main/Case%20Study%20%233%20-%20Foodie-Fi%20)
 
