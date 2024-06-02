@@ -211,6 +211,25 @@ Based on the data above, see below the journey of these 8 sample customers:
 
 **3. What plan start_date values occur after the year 2020 for our dataset? Show the breakdown by count of events for each plan_name?**
 
+     SELECT
+     	YEAR(s.start_date) AS FY,
+         p.plan_name As Plan,
+         COUNT(s.customer_id) As NumberOfSubs
+      FROM subscriptions s
+      JOIN plans p
+      ON s.plan_id = p.plan_id
+      WHERE YEAR(s.start_date) > 2020
+      GROUP BY FY, Plan;
+
+**4. What is the customer count and percentage of customers who have churned rounded to 1 decimal place?**
+
+    SELECT
+      COUNT(DISTINCT(s.customer_ID)) AS ChurnedCustomers,
+      ROUND(100 * COUNT(s.customer_ID) / (SELECT COUNT(DISTINCT customer_id) FROM subscriptions), 1) AS Percentage
+    FROM subscriptions s
+    WHERE s.plan_ID = 4 
+
+
 
 
 
