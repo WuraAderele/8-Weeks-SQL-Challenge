@@ -6,7 +6,6 @@
 ##  📕 Table Of Contents
 * ### 📝 Background & 🛠️ Problem Statement
 * ### 📂 Dataset
-* ### ♻️ Data Wrangling
 * ### 🧙‍♂️ Case Study Questions & 🚀 Solutions
 
 ## 📝 Background & 🛠️ Problem Statement
@@ -22,7 +21,7 @@ Danny created Foodie-Fi with a data driven mindset and wanted to ensure all futu
 Danny has shared the data design for Foodie-Fi and also short descriptions on each of the database tables as shown below:
 
 <details>
- <summary> **Plans Table Structure** </summary>
+ <summary> Plans Table Structure </summary>
  <p>
    
 **Query #1**
@@ -37,13 +36,13 @@ Danny has shared the data design for Foodie-Fi and also short descriptions on ea
 
 Customers can choose which plans to join Foodie-Fi when they first sign up.
 
-Basic plan customers have limited access and can only stream their videos and is only available monthly at $9.90
+* Basic plan customers have limited access and can only stream their videos and is only available monthly at $9.90
 
-Pro plan customers have no watch time limits and are able to download videos for offline viewing. Pro plans start at $19.90 a month or $199 for an annual subscription.
+* Pro plan customers have no watch time limits and are able to download videos for offline viewing. Pro plans start at $19.90 a month or $199 for an annual subscription.
 
-Customers can sign up to an initial 7 day free trial will automatically continue with the pro monthly subscription plan unless they cancel, downgrade to basic or upgrade to an annual pro plan at any point during the trial.
+* Customers can sign up to an initial 7 day free trial will automatically continue with the pro monthly subscription plan unless they cancel, downgrade to basic or upgrade to an annual pro plan at any point during the trial.
 
-When customers cancel their Foodie-Fi service - they will have a churn plan record with a null price but their plan will continue until the end of the billing period.
+* When customers cancel their Foodie-Fi service - they will have a churn plan record with a null price but their plan will continue until the end of the billing period.
  
  </p>
 </details>
@@ -97,7 +96,7 @@ When customers churn - they will keep their access until the end of their curren
  <summary> Subscriptions Table Info </summary>
  <p>
    
-**Query #1**
+**Query #4**
 
     SELECT * 
     FROM subscriptions
@@ -118,5 +117,74 @@ When customers churn - they will keep their access until the end of their curren
  </p>
 </details>
 
-## ♻️ Data Wrangling
 ## 🧙‍♂️ Case Study Questions & 🚀 Solutions
+
+**A. CUSTOMER JOURNEY**
+Based off the 8 sample customers provided in the below sample from the subscriptions table, write a brief description about each customer’s onboarding journey.
+
+| customer_id | plan_id | start_date |
+| ----------- | ------- | ---------- |
+| 1	          | 0       |	2020-08-01 |
+| 1	          | 1	      | 2020-08-08 |
+| 2	          | 0	      | 2020-09-20 |
+| 2	          | 3	      | 2020-09-27 |
+| 11	         | 0	      | 2020-11-19 |
+| 11	         | 4	      | 2020-11-26 |
+| 13	         | 0	      | 2020-12-15 |
+| 13	         | 1	      | 2020-12-22 |
+| 13	         | 2	      | 2021-03-29 |
+| 15	         | 0	      | 2020-03-17 |
+| 15	         | 2	      | 2020-03-24 |
+| 15          |	4	      | 2020-04-29 |
+| 16          |	0       |	2020-05-31 |
+| 16	         | 1	      | 2020-06-07 |
+| 16          |	3	      | 2020-10-21 |
+| 18	         | 0	      | 2020-07-06 |
+| 18          |	2	      | 2020-07-13 |
+| 19          |	0	      | 2020-06-22 |
+| 19	         | 2	      | 2020-06-29 |
+| 19          |	3	      | 2020-08-29 |
+
+**Solution**
+**Query #5**
+
+    SELECT s.customer_id, p.plan_name, s.start_date
+    FROM subscriptions s
+    JOIN plans p
+    ON s.plan_id = p.plan_id
+    WHERE s.customer_id IN (1, 2, 11, 13, 15, 16, 18, 19);
+
+| customer_id | start_date | plan_name     |
+| ----------- | ---------- | ------------- |
+| 1           | 2020-08-01 | trial         |
+| 1           | 2020-08-08 | basic monthly |
+| 2           | 2020-09-20 | trial         |
+| 2           | 2020-09-27 | pro annual    |
+| 11          | 2020-11-19 | trial         |
+| 11          | 2020-11-26 | churn         |
+| 13          | 2020-12-15 | trial         |
+| 13          | 2020-12-22 | basic monthly |
+| 13          | 2021-03-29 | pro monthly   |
+| 15          | 2020-03-17 | trial         |
+| 15          | 2020-03-24 | pro monthly   |
+| 15          | 2020-04-29 | churn         |
+| 16          | 2020-05-31 | trial         |
+| 16          | 2020-06-07 | basic monthly |
+| 16          | 2020-10-21 | pro annual    |
+| 18          | 2020-07-06 | trial         |
+| 18          | 2020-07-13 | pro monthly   |
+| 19          | 2020-06-22 | trial         |
+| 19          | 2020-06-29 | pro monthly   |
+| 19          | 2020-08-29 | pro annual    |
+
+Based on the data above, see below the journey of these 8 sample customers:
+| Customer ID      | Journey    |
+| -----------      | ---------- |
+| 1                | This customer signed up for Foodie-Fi on 01 August and downgraded to basic monthly at the end of the trial period |
+|  2               | This customer signed up for Foodie-Fi on 20 September and was automatically upgraded to pro annual at the end of the trial period |
+| 11               | This customer signed up for Foodie-Fi on 19 November and cancelled their subscription by the end of the trial period  |
+| 13               | This customer signed up for Foodie-Fi on 15 December, downgraded to basic monthly at the end of the trial period, and has eventually upgraded to pro monthly  |
+| 15               | This customer signed up for Foodie-Fi on 17 March,  downgraded to pro monthly at the end of the trial period, subsequently cancelled their subscription before the next renewal |
+| 16               | This customer signed up for Foodie-Fi on 31 May,  downgraded to basic monthly at the end of the trial period, and eventually  upgraded their subscription to pro annual |
+| 18               | This customer signed up for Foodie-Fi on 06 July and downgraded to basic monthly at the end of the trial period |
+| 19               | This customer signed up for Foodie-Fi on 22 June,  downgraded to pro monthly at the end of the trial period, and eventually  upgraded their subscription to pro annual |
