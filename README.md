@@ -3,3 +3,6 @@
 #### This repository contains all of my SQL queries for the #8WeekSQLChallenge 
 # 📕 Table Of Contents
   ### 🍜 Case Study #1 - Danny's Diner
+  ### 🍕 Case Study #2 - Pizza Runner 
+  ### 🥑 Case Study #3 - Foodie-Fi
+
