@@ -22,7 +22,7 @@ Danny created Foodie-Fi with a data driven mindset and wanted to ensure all futu
 Danny has shared the data design for Foodie-Fi and also short descriptions on each of the database tables as shown below:
 
 <details>
- <summary> Plans Table Structure </summary>
+ <summary> **Plans Table Structure** </summary>
  <p>
    
 **Query #1**
