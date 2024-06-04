@@ -229,6 +229,8 @@ Based on the data above, see below the journey of these 8 sample customers:
     FROM subscriptions s
     WHERE s.plan_ID = 4 
 
+**5. How many customers have churned straight after their initial free trial - what percentage is this rounded to the nearest whole number?**
+
 
 
 
