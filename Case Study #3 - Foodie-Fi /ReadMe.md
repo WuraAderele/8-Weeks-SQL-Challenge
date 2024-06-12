@@ -348,6 +348,7 @@ The Foodie-Fi team wants you to create a new **payments** table for the year 202
 * upgrades from basic to monthly or pro plans are reduced by the current paid amount in that month and start immediately
 * upgrades from pro monthly to pro annual are paid at the end of the current billing period and also starts at the end of the month period
 * once a customer churns they will no longer make payments
+* customer_id	plan_id	plan_name	payment_date	amount	payment_order
 
 
 
