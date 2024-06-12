@@ -296,7 +296,31 @@ Based on the data above, see below the journey of these 8 sample customers:
        FROM subscriptions
        WHERE plan_id = 3 AND YEAR(start_date) = 2020;
 
-**9. How many days on average does it take for a customer to an annual plan from the day they join Foodie-Fi?**
+**9. How many days on average does it take for a customer to subscribe to an annual plan from the day they join Foodie-Fi?**
+
+    WITH AnnualSubs AS (
+      SELECT
+      	customer_id,
+      	start_date
+      FROM subscriptions
+      WHERE plan_id=3
+    ),
+    
+    TrialSubs AS (
+      SELECT
+      	customer_id,
+      	start_date
+      FROM subscriptions
+      WHERE plan_id=0 
+    )
+    
+    SELECT
+    	ROUND(AVG(a.start_date - t.start_date),0) AS AvgTAT
+    FROM AnnualSubs a
+    JOIN TrialSubs t
+    ON a.customer_id=t.customer_id;
+
+
 
 
 
