@@ -23,8 +23,9 @@ This case study is all about calculating metrics, growth and helping the busines
 
 ## 📂 Dataset
 The Data Bank team have prepared a data model for this case study as well as a few example rows from the complete dataset below to get you familiar with their tables.
-500
-<img src = "https://8weeksqlchallenge.com/images/case-study-4-erd.png" width = "400" height = "200">
+
+<p align = "center">
+<img src = "https://8weeksqlchallenge.com/images/case-study-4-erd.png" width = "600" height = "300">
 
 
 
