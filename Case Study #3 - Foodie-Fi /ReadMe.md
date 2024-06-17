@@ -120,6 +120,7 @@ When customers churn - they will keep their access until the end of their curren
 ## 🧙‍♂️ Case Study Questions & 🚀 Solutions
 
 **A. CUSTOMER JOURNEY**
+
 Based off the 8 sample customers provided in the below sample from the subscriptions table, write a brief description about each customer’s onboarding journey.
 
 | customer_id | plan_id | start_date |
