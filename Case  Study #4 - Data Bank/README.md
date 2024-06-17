@@ -1,7 +1,7 @@
 # 🏦 Case Study #4 - Data Bank 
 
 <p align = "center">
-<img src = "https://8weeksqlchallenge.com/images/case-study-designs/3.png" width = "400" height = "400">
+<img src = "https://8weeksqlchallenge.com/images/case-study-designs/4.png" width = "400" height = "400">
 
 ##  📕 Table Of Contents
 * ### 📝 Background & 🛠️ Problem Statement
