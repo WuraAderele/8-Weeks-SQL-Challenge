@@ -95,9 +95,64 @@ To calculate this, we first need to know how many days a customer has spent in e
 ### B. Customer Transactions
 
 **1. What is the unique count and total amount for each transaction type?**
+
+      SELECT
+            txn_type,
+            COUNT(customer_id) AS TotalTxns,
+            SUM(txn_amount) AS TotalAmount
+       FROM customer_transactions
+       GROUP BY txn_type;
+    
 **2. What is the average total historical deposit counts and amounts for all customers?**
 
-For each month - how many Data Bank customers make more than 1 deposit and either 1 purchase or 1 withdrawal in a single month?
-What is the closing balance for each customer at the end of the month?
-What is the percentage of customers who increase their closing balance by more than 5%?
+      WITH DepositTxns AS(
+      	SELECT
+        		customer_id,
+        		COUNT(customer_id) AS NumofDeposits,
+        		AVG(txn_amount) AS AvgDeposits
+        	FROM customer_transactions
+        	WHERE txn_type = 'deposit' 
+        	GROUP BY customer_id
+      )
+      
+      SELECT
+      	ROUND(AVG(NumofDeposits),0),
+          ROUND(AVG(AvgDeposits),0)
+       FROM DepositTxns
+
+**3. For each month - how many Data Bank customers make more than 1 deposit and either 1 purchase or 1 withdrawal in a single month?**
+
+      WITH CountTxnTypes AS (
+      	SELECT
+        		customer_id,
+        		MONTHNAME(txn_date) AS Month,
+        		SUM(CASE WHEN txn_type = 'deposit' THEN 1 ELSE 0 END) AS NumofDeposits,
+        		SUM(CASE WHEN txn_type = 'purchase' THEN 1 ELSE 0 END) AS NumofPurchases,
+        		SUM(CASE WHEN txn_type = 'withdrawal' THEN 1 ELSE 0 END) AS NumofWithdrawals
+        	FROM customer_transactions
+        	GROUP BY customer_id, Month
+      )
+      
+      SELECT
+      	Month,
+          COUNT(customer_id) AS NumofCustomers
+      FROM CountTxnTypes
+      WHERE NumofDeposits > 1 AND (NumofPurchases >= 1 OR NumofWithdrawals >= 1)
+      GROUP BY Month;
+      
+**4. What is the closing balance for each customer at the end of the month?**
+**5. What is the percentage of customers who increase their closing balance by more than 5%?**
+
+### C. Data Allocation Challenge
+To test out a few different hypotheses - the Data Bank team wants to run an experiment where different groups of customers would be allocated data using 3 different options:
+
+Option 1: data is allocated based off the amount of money at the end of the previous month
+Option 2: data is allocated on the average amount of money kept in the account in the previous 30 days
+Option 3: data is updated real-time
+For this multi-part challenge question - you have been requested to generate the following data elements to help the Data Bank team estimate how much data will need to be provisioned for each option:
+
+running customer balance column that includes the impact each transaction
+customer balance at the end of each month
+minimum, average and maximum values of the running balance for each customer
+Using all of the data available - how much data would have been required for each option on a monthly basis?
 
