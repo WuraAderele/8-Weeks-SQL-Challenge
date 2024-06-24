@@ -141,6 +141,7 @@ To calculate this, we first need to know how many days a customer has spent in e
       GROUP BY Month;
       
 **4. What is the closing balance for each customer at the end of the month?**
+
 **5. What is the percentage of customers who increase their closing balance by more than 5%?**
 
 ### C. Data Allocation Challenge
