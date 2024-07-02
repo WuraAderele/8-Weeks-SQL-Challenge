@@ -26,6 +26,7 @@ The key business question he wants you to help him answer are the following:
 We have been provided with the below entity relationship diagram for an understanding of the dataset:
 <p align = "center">
 <img src = "https://8weeksqlchallenge.com/images/case-study-5-erd.png" width = "400" height = "400">
+
 From this diagram, we can see that there is only one table: data_mart.weekly_sales. 
 
 *week_date* represents the start of the sales week
@@ -52,6 +53,7 @@ From this diagram, we can see that there is only one table: data_mart.weekly_sal
 | 31/8/20   | AFRICA | Retail   | C3      | New           | 111032       | 3888162  |
 
 # ♻️ Data Wrangling
+
 In a single query, perform the following operations and generate a new table in the *data_mart* schema named *clean_weekly_sales*:
 
 * Convert the *week_date* to a DATE format
@@ -63,5 +65,122 @@ In a single query, perform the following operations and generate a new table in 
 * Add a calendar_year column as the 4th column containing either 2018, 2019 or 2020 values
 
 * Add a new column called age_band after the original segment column using the following mapping on the number inside the segment value
+
+| segment	| age_band | 
+|---------|----------|
+| 1	| Young Adults |
+| 2 |	Middle Aged |
+| 3 or 4 | Retirees |
+
+* Add a new demographic column using the following mapping for the first letter in the segment values:
+  
+| segment |	demographic |
+|---------|-------------|
+| C |	Couples |
+| F | Families |
+
+* Ensure all null string values with an "unknown" string value in the original segment column as well as the new age_band and demographic columns
+
+* Generate a new avg_transaction column as the sales value divided by transactions rounded to 2 decimal places for each record
+
+**SINGLE QUERY**
+
+    CREATE TABLE clean_weekly_sales AS (
+      SELECT
+      	TO_DATE(week_date, 'DD/MM/YY') AS week_date,
+      	DATE_PART('week', TO_DATE(week_date, 'DD/MM/YY')) AS week_number,
+        DATE_PART('month', TO_DATE(week_date, 'DD/MM/YY')) AS month_number,
+        DATE_PART('year', TO_DATE(week_date, 'DD/MM/YY')) AS calendar_year,
+        region,
+        platform,
+        CASE
+      	  WHEN segment = 'null' THEN 'unknown'
+      	  ELSE segment
+      	END AS segment,
+        CASE
+          WHEN RIGHT(segment, 1) = '1' THEN 'Young Adults'
+          WHEN RIGHT(segment, 1) = '2' THEN 'Middle Aged'
+          WHEN RIGHT(segment, 1) = '3' OR RIGHT(segment, 1) = '4' THEN 'Retirees'
+          ELSE 'unknown'
+        END AS age_band,
+        CASE
+          WHEN LEFT(segment, 1) = 'C' THEN 'Couples'
+          WHEN LEFT(segment, 1) = 'F' THEN 'Families'
+          ELSE 'unknown'
+        END AS demographic,
+        sales,
+        transactions,
+      	ROUND((sales/transactions), 2) AS avg_transaction
+      FROM data_mart.weekly_sales);
+
+# 🧙‍♂️ Case Study Questions & 🚀 Solutions
+
+### Data Exploration
+
+* What day of the week is used for each week_date value?
+
+      SELECT
+      	DISTINCT(TO_CHAR(week_date, 'Day')) AS day_of_week
+      FROM clean_weekly_sales;
+
+The results of the query shows that **Monday** is the always the start of the sales week.
+
+* What range of week numbers are missing from the dataset?
+
+      WITH week_range AS (
+        SELECT GENERATE_SERIES(1,52) AS week_number
+      )
+        
+      SELECT 
+      	DISTINCT wr.week_number
+      FROM week_range wr 
+      LEFT JOIN clean_weekly_sales cws
+      ON wr.week_number = cws.week_number
+      WHERE cws.week_number IS NULL;
+
+From the results of the query, weeks 1-12 and 37-52 are missing from the dataset.
+
+* How many total transactions were there for each year in the dataset?
+
+    SELECT
+    	calendar_year,
+    	SUM(transactions) AS total_txns
+    FROM clean_weekly_sales
+    GROUP BY calendar_year;
+
+| calendar_year |	sum |
+| ------------- | --- |
+| 2019 | 365639285 | 
+| 2018	| 346406460 |
+| 2020	375813651 |
+
+* What is the total sales for each region for each month?
+
+      SELECT
+      	region,
+      	calendar_year,
+          month_number,
+          TO_CHAR(week_date,'Month') AS month_name,
+          SUM(sales) AS total_sales
+      FROM clean_weekly_sales
+      GROUP BY region, calendar_year, month_number, month_name
+      ORDER BY month_number, region ASC;
+  
+* What is the total count of transactions for each platform
+
+      SELECT
+      	platform,
+      	SUM(transactions) AS total_txns
+      FROM clean_weekly_sales
+      GROUP BY platform;
+  
+* What is the percentage of sales for Retail vs Shopify for each month?
+* What is the percentage of sales by demographic for each year in the dataset?
+* Which age_band and demographic values contribute the most to Retail sales?
+* Can we use the avg_transaction column to find the average transaction size for each year for Retail vs Shopify? If not - how would you calculate it instead?
+      
+
+
+
 
 
