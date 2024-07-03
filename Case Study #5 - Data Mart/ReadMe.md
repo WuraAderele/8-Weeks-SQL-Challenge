@@ -175,6 +175,33 @@ From the results of the query, weeks 1-12 and 37-52 are missing from the dataset
       GROUP BY platform;
   
 * What is the percentage of sales for Retail vs Shopify for each month?
+
+      WITH platform_sales AS(
+        SELECT
+        	calendar_year,
+        	month_number,
+        	platform,
+        	SUM(sales) AS monthly_sales
+        FROM clean_weekly_sales
+        GROUP BY calendar_year, month_number, platform
+        ORDER BY calendar_year, month_number, platform
+      )
+      
+      SELECT
+      	calendar_year,
+          month_number,
+      	ROUND(100 * MAX 
+          (CASE 
+            WHEN platform = 'Retail' THEN monthly_sales END) 
+          / SUM(monthly_sales),2) AS retail_percent,
+        ROUND(100 * MAX 
+          (CASE 
+            WHEN platform = 'Shopify' THEN monthly_sales END)
+          / SUM(monthly_sales),2) AS shopify_percent
+      FROM platform_sales
+      GROUP BY calendar_year, month_number
+      ORDER BY calendar_year, month_number;
+  
 * What is the percentage of sales by demographic for each year in the dataset?
 * Which age_band and demographic values contribute the most to Retail sales?
 * Can we use the avg_transaction column to find the average transaction size for each year for Retail vs Shopify? If not - how would you calculate it instead?
