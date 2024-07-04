@@ -176,31 +176,31 @@ From the results of the query, weeks 1-12 and 37-52 are missing from the dataset
   
 * What is the percentage of sales for Retail vs Shopify for each month?
 
-      WITH platform_sales AS(
-        SELECT
-        	calendar_year,
-        	month_number,
-        	platform,
-        	SUM(sales) AS monthly_sales
-        FROM clean_weekly_sales
-        GROUP BY calendar_year, month_number, platform
-        ORDER BY calendar_year, month_number, platform
-      )
-      
-      SELECT
-      	calendar_year,
-          month_number,
-      	ROUND(100 * MAX 
-          (CASE 
-            WHEN platform = 'Retail' THEN monthly_sales END) 
-          / SUM(monthly_sales),2) AS retail_percent,
-        ROUND(100 * MAX 
-          (CASE 
-            WHEN platform = 'Shopify' THEN monthly_sales END)
-          / SUM(monthly_sales),2) AS shopify_percent
-      FROM platform_sales
-      GROUP BY calendar_year, month_number
-      ORDER BY calendar_year, month_number;
+		      WITH platform_sales AS(
+		        SELECT
+		        	calendar_year,
+		        	month_number,
+		        	platform,
+		        	SUM(sales) AS monthly_sales
+		        FROM clean_weekly_sales
+		        GROUP BY calendar_year, month_number, platform
+		        ORDER BY calendar_year, month_number, platform
+		      )
+		      
+		      SELECT
+		      	calendar_year,
+		          month_number,
+		      	ROUND(100 * MAX 
+		          (CASE 
+		            WHEN platform = 'Retail' THEN monthly_sales END) 
+		          / SUM(monthly_sales),2) AS retail_percent,
+		        ROUND(100 * MAX 
+		          (CASE 
+		            WHEN platform = 'Shopify' THEN monthly_sales END)
+		          / SUM(monthly_sales),2) AS shopify_percent
+		      FROM platform_sales
+		      GROUP BY calendar_year, month_number
+		      ORDER BY calendar_year, month_number;
 
 In this query, the MAX function is being used in a clever way to achieve conditional aggregation. Here's the purpose of MAX in this context:
 
@@ -210,55 +210,55 @@ In this query, the MAX function is being used in a clever way to achieve conditi
 
 * What is the percentage of sales by demographic for each year in the dataset?
 
-  WITH demog_yearly_sales AS(
-  SELECT
-  	calendar_year,
-   	demographic,
-    SUM(sales) AS yearly_sales
-    FROM clean_weekly_sales
-    GROUP BY calendar_year, demographic
-    ORDER BY calendar_year, demographic
-)
-
-SELECT
-	calendar_year,
-    ROUND(100 * MAX 
-          (CASE 
-            WHEN demographic = 'Couples' THEN yearly_sales END) 
-          / SUM(yearly_sales),2) AS couples,
-    ROUND(100 * MAX 
-          (CASE 
-            WHEN demographic = 'Families' THEN yearly_sales END)
-          / SUM(yearly_sales),2) AS families,
-     ROUND(100 * MAX 
-          (CASE 
-            WHEN demographic = 'unknown' THEN yearly_sales END)
-          / SUM(yearly_sales),2) AS unknown
- FROM demog_yearly_sales
- GROUP BY calendar_year
- ORDER BY calendar_year;
+		  WITH demog_yearly_sales AS(
+		  SELECT
+		  	calendar_year,
+		   	demographic,
+		    SUM(sales) AS yearly_sales
+		    FROM clean_weekly_sales
+		    GROUP BY calendar_year, demographic
+		    ORDER BY calendar_year, demographic
+		)
+		
+		SELECT
+			calendar_year,
+		    ROUND(100 * MAX 
+		          (CASE 
+		            WHEN demographic = 'Couples' THEN yearly_sales END) 
+		          / SUM(yearly_sales),2) AS couples,
+		    ROUND(100 * MAX 
+		          (CASE 
+		            WHEN demographic = 'Families' THEN yearly_sales END)
+		          / SUM(yearly_sales),2) AS families,
+		     ROUND(100 * MAX 
+		          (CASE 
+		            WHEN demographic = 'unknown' THEN yearly_sales END)
+		          / SUM(yearly_sales),2) AS unknown
+		 FROM demog_yearly_sales
+		 GROUP BY calendar_year
+		 ORDER BY calendar_year;
 
 * Which age_band and demographic values contribute the most to Retail sales?
 
-SELECT
-	age_band,
-    demographic,
-    SUM(sales) AS total_sales
-FROM clean_weekly_sales
-WHERE platform = 'Retail'
-GROUP BY age_band, demographic
-ORDER BY total_sales DESC;
+			SELECT
+				age_band,
+			    demographic,
+			    SUM(sales) AS total_sales
+			FROM clean_weekly_sales
+			WHERE platform = 'Retail'
+			GROUP BY age_band, demographic
+			ORDER BY total_sales DESC;
 
 * Can we use the avg_transaction column to find the average transaction size for each year for Retail vs Shopify? If not - how would you calculate it instead?
 
-    SELECT
-    	calendar_year,
-        platform,
-        AVG(avg_transaction) AS avg_txn
-    FROM clean_weekly_sales
-    GROUP BY calendar_year, platform
-    ORDER BY calendar_year, platform;
-      
+		    SELECT
+		    	calendar_year,
+		        platform,
+		        AVG(avg_transaction) AS avg_txn
+		    FROM clean_weekly_sales
+		    GROUP BY calendar_year, platform
+		    ORDER BY calendar_year, platform;
+		      
 
 ### Before & After Analysis
 This technique is usually used when we inspect an important event and want to inspect the impact before and after a certain point in time.
