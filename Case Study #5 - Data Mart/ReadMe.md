@@ -142,11 +142,11 @@ From the results of the query, weeks 1-12 and 37-52 are missing from the dataset
 
 * How many total transactions were there for each year in the dataset?
 
-    SELECT
-    	calendar_year,
-    	SUM(transactions) AS total_txns
-    FROM clean_weekly_sales
-    GROUP BY calendar_year;
+	    SELECT
+	    	calendar_year,
+	    	SUM(transactions) AS total_txns
+	    FROM clean_weekly_sales
+	    GROUP BY calendar_year;
 
 | calendar_year |	sum |
 | ------------- | --- |
