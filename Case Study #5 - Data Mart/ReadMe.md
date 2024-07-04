@@ -270,8 +270,47 @@ We would include all *week_date* values for *2020-06-15* as the start of the per
 Using this analysis approach - answer the following questions:
 
 * What is the total sales for the 4 weeks before and after 2020-06-15? What is the growth or reduction rate in actual values and percentage of sales?
+
+		WITH packaging_sales_changes AS(     
+		     SELECT
+		      	SUM(
+		          CASE
+		          	WHEN week_date BETWEEN '2020-06-15'::date - INTERVAL '4 weeks' AND '2020-06-15'::date THEN sales END) AS sales_before_baseline,
+		      	SUM(
+		          CASE
+		          	WHEN week_date BETWEEN '2020-06-15'::date AND '2020-06-15'::date + INTERVAL '4 weeks' THEN sales END) AS sales_after_baseline
+		      FROM clean_weekly_sales
+		)
+		
+		SELECT
+			sales_before_baseline,
+		    sales_after_baseline,
+		   	(sales_before_baseline-sales_after_baseline) AS variance,
+		    ROUND(100 * 
+		          (sales_before_baseline-sales_after_baseline)
+		          /sales_before_baseline
+		          ,2) AS variance_percent
+		FROM packaging_sales_changes;
+
 * What about the entire 12 weeks before and after?
-* How do the sale metrics for these 2 periods before and after compare with the previous years in 2018 and 2019?
+
+		WITH packaging_sales_changes AS(     
+				     SELECT
+				      	SUM(
+				          CASE
+				          	WHEN week_date BETWEEN '2020-06-15'::date - INTERVAL '12 weeks' AND '2020-06-15'::date THEN sales END) AS sales_before_baseline,
+				      	SUM(
+				          CASE
+				          	WHEN week_date BETWEEN '2020-06-15'::date AND '2020-06-15'::date + INTERVAL '12 weeks' THEN sales END) AS sales_after_baseline
+				      FROM clean_weekly_sales
+				)
+				
+				SELECT
+					sales_before_baseline,
+				    sales_after_baseline,
+				   	(sales_before_baseline-sales_after_baseline) AS variance
+				FROM packaging_sales_changes;
+		* How do the sale metrics for these 2 periods before and after compare with the previous years in 2018 and 2019?
 
 
 
